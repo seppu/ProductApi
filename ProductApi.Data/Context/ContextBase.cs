@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProductApi.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace ProductApi.Data.Context
             : base(dbContext)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
