@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ProductApi.Core\ProductApi.Core.csproj" />
     <ProjectReference Include="..\ProductApi.Data\ProductApi.Data.csproj" />
   </ItemGroup>
