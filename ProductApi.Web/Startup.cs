@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ProductApi.Core.Configurations;
+using ProductApi.Core.Repositories;
+using ProductApi.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,8 @@ namespace ProductApi.Web
 
             services.AddDbContext<Data.Context.AppDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString(nameof(ConnectionStringConfiguration.DbConnection))));
+
+            InjectDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +63,15 @@ namespace ProductApi.Web
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void InjectDependencies(IServiceCollection services)
+        {
+            services.AddOptions();
+            services.Configure<ConnectionStringConfiguration>(Configuration.GetSection("ConnectionStrings"));
+            services.AddSingleton(Configuration);
+
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
