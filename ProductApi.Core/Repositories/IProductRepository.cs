@@ -10,5 +10,11 @@ namespace ProductApi.Core.Repositories
     public interface IProductRepository
     {
         Task<Product> GetProductById(Guid id);
+
+        Task<List<Product>> GetAllProducts();
+
+        Task<int> Insert(Product newProduct);
+
+        Task<int> Update(Product updateProduct);
     }
 }

@@ -9,9 +9,9 @@ namespace ProductApi.BusinessLayer.Interfaces
 {
     public interface IProductService
     {
-        Task<ProductSaveResultDto> Save(ProductRequestDto request);
+        Task<ProductResponseDto> Save(ProductResponseDto request);
 
-        Task<ProductResponseDto> GetProduct(ProductRequestDto request);
+        Task<ProductResponseDto> GetProduct(Guid? id);
 
         Task<ICollection<ProductResponseDto>> GetAllProducts();
     }
