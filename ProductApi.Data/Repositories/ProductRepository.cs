@@ -17,20 +17,31 @@ namespace ProductApi.Data.Repositories
         {
 
         }
-
+        /// <summary>
+        /// Returns the product corresponding to the id passed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Product> GetProductById(Guid id)
         {
             return await  _context.Products
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
         }
-
+        /// <summary>
+        /// Returns all products
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Product>> GetAllProducts()
         {
             return await _context.Products
                 .ToListAsync();
         }
-
+        /// <summary>
+        /// Insert a new product
+        /// </summary>
+        /// <param name="newProduct"></param>
+        /// <returns></returns>
         public async Task<int> Insert(Product newProduct)
         {
             int rowsAffected;
@@ -44,7 +55,11 @@ namespace ProductApi.Data.Repositories
             }
             return rowsAffected;
         }
-
+        /// <summary>
+        /// Updates an existing product
+        /// </summary>
+        /// <param name="updateProduct"></param>
+        /// <returns></returns>
         public async Task<int> Update(Product updateProduct)
         {
             int rowsAffected;

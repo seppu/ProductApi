@@ -261,5 +261,16 @@ namespace ProductApi.UnitTests
             var productResponseDtoResult = await productService.GetProduct(mockId);
             Assert.AreEqual(mockId, productResponseDtoResult.Id);
         }
+
+        [TestMethod]
+        public async Task GetAllProduct_ReturnCollectionProductResponseDto()
+        {
+            ICollection<ProductResponseDto> mockProducts = new List<ProductResponseDto>();
+            _mockProductRepository.Setup(o => o.GetAllProducts()).ReturnsAsync(new List<Product>());
+            _mockMapper.Setup(o => o.Map<Product, ProductResponseDto>(It.IsAny<Product>())).Returns(new ProductResponseDto());
+            IProductService productService = CreateProductService();
+            var productResponseDtoResult = await productService.GetAllProducts();
+            Assert.AreEqual(mockProducts.GetType(),productResponseDtoResult.GetType());
+        }
     }
 }
