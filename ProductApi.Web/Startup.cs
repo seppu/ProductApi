@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,7 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ProductApi.BusinessLayer;
+using ProductApi.BusinessLayer.Interfaces;
+using ProductApi.BusinessLayer.Services;
 using ProductApi.Core.Configurations;
+using ProductApi.Core.Repositories;
+using ProductApi.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +33,13 @@ namespace ProductApi.Web
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
-            services.AddControllers();
+        {            
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductApi.Web", Version = "v1" });
@@ -37,6 +47,8 @@ namespace ProductApi.Web
 
             services.AddDbContext<Data.Context.AppDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString(nameof(ConnectionStringConfiguration.DbConnection))));
+
+            InjectDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +71,18 @@ namespace ProductApi.Web
             {
                 endpoints.MapControllers();
             });
+
+        }
+
+        private void InjectDependencies(IServiceCollection services)
+        {
+            services.AddOptions();
+            services.Configure<ConnectionStringConfiguration>(Configuration.GetSection("ConnectionStrings"));
+            services.AddSingleton(Configuration);
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddAutoMapper(typeof(Startup), typeof(DtoMappingProfile));
         }
     }
 }
