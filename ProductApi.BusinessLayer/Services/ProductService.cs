@@ -57,6 +57,11 @@ namespace ProductApi.BusinessLayer.Services
         }
 
         #region Private
+        /// <summary>
+        /// Validate the request dto and map to model
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         private async Task<(Product currentModel, Product previousModel)> ValidateRequestAndMapToModel(ProductResponseDto request)
         {
             if (request == null)
@@ -85,7 +90,10 @@ namespace ProductApi.BusinessLayer.Services
 
             return (currentModel, previousModel);
         }
-
+        /// <summary>
+        /// Validate the request data
+        /// </summary>
+        /// <param name="request"></param>
         private void ValidateRequest(ProductResponseDto request)
         {
             if (string.IsNullOrEmpty(request.Name))
@@ -133,7 +141,12 @@ namespace ProductApi.BusinessLayer.Services
                 }                    
             }
         }
-
+        /// <summary>
+        /// This function calls the repository to insert or update the model
+        /// </summary>
+        /// <param name="draftModel"></param>
+        /// <param name="previousModel"></param>
+        /// <returns></returns>
         private async Task<int> UpsertAsync(Product draftModel, Product previousModel)
         {
             int result;

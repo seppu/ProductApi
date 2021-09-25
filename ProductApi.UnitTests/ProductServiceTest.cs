@@ -27,15 +27,7 @@ namespace ProductApi.UnitTests
             _mockMapper = new Mock<IMapper>();
             _mockLogger = new Mock<ILogger<ProductService>>();
         }
-
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    _mockProductRepository = new Mock<IProductRepository>();
-        //    _mockMapper = new Mock<IMapper>();
-        //    _mockLogger = new Mock<ILogger<ProductService>>();
-        //}
-        
+                
         public IProductService CreateProductService()
         {
             return new ProductService(_mockMapper.Object, _mockLogger.Object, _mockProductRepository.Object);
@@ -145,20 +137,6 @@ namespace ProductApi.UnitTests
             };
             await productService.Save(response);
         }
-
-        //[ExpectedException(typeof(InvalidCastException))]
-        //[TestMethod]
-        //public async Task SaveProduct_WhenPriceIsNotDecimal_ThrowException()
-        //{
-        //    IProductService productService = CreateProductService();
-        //    ProductResponseDto response = new ProductResponseDto()
-        //    {
-        //        Name = "Coffee",
-        //        Description = "Honduras - Roasted Arabica Beans",
-        //        Price = 10.99999
-        //    };
-        //    await productService.Save(response);
-        //}
 
         [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]

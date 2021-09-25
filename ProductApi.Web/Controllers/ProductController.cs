@@ -20,7 +20,11 @@ namespace ProductApi.Web.Controllers
         {
             _productService = productService;
         }
-
+        /// <summary>
+        /// Product Save enpoint
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("save")]
         [ProducesResponseType(200, Type = typeof(ProductResponseDto))]
         [ProducesResponseType(400, Type = typeof(ProductResponseDto))]
@@ -36,7 +40,11 @@ namespace ProductApi.Web.Controllers
             }
             return Ok(result);
         }
-
+        /// <summary>
+        /// Get Product endpoint
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("getproduct/{id}")]
         [ProducesResponseType(200, Type = typeof(ProductResponseDto))]
         [ProducesResponseType(400)]
@@ -52,7 +60,10 @@ namespace ProductApi.Web.Controllers
             }
             return Ok(result);
         }
-
+        /// <summary>
+        /// Get all product endpoint
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getallproducts")]
         [ProducesResponseType(200, Type = typeof(ICollection<ProductResponseDto>))]
         [ProducesResponseType(400)]
