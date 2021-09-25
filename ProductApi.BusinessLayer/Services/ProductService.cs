@@ -22,13 +22,20 @@ namespace ProductApi.BusinessLayer.Services
         {
             _productRepository = productRepository;
         }
-
+        /// <summary>
+        /// This method that gets entire list of products.
+        /// </summary>
+        /// <returns></returns>
         public async Task<ICollection<ProductResponseDto>> GetAllProducts()
         {
             var resultModel = await _productRepository.GetAllProducts();
             return resultModel.Select(re => Mapper.Map<Product, ProductResponseDto>(re)).ToList();
         }
-
+        /// <summary>
+        /// This method gets the specific product queried based on the id requested.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ProductResponseDto> GetProduct(Guid? id)
         {
             if (id == null || id == Guid.Empty)
@@ -39,10 +46,14 @@ namespace ProductApi.BusinessLayer.Services
             var resultModel = await _productRepository.GetProductById((Guid)id);
             return Mapper.Map<Product, ProductResponseDto>(resultModel);
         }
-
+        /// <summary>
+        /// This method creates or updates the product model passed.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<ProductResponseDto> Save(ProductResponseDto request)
         {
-            ProductResponseDto result;
+            ProductResponseDto result = new ProductResponseDto();
             (var currentModel, var previousModel) = await ValidateRequestAndMapToModel(request);
 
             var rowsAffected = await UpsertAsync(currentModel, previousModel);
@@ -51,8 +62,6 @@ namespace ProductApi.BusinessLayer.Services
                 var resultModel = await _productRepository.GetProductById(currentModel.Id);
                 result = Mapper.Map<Product, ProductResponseDto>(resultModel);
             }
-            else
-                result = null;
             return result;
         }
 
